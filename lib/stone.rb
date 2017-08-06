@@ -8,6 +8,14 @@ class Stone
     @lang2 = lang1
     @lang3 = lang1
     @lang4 = lang1
+    @@all << self
+  end
+
+  # find_or_create_language
+
+  # list all language stones that have been created
+  def self.all
+    @@all
   end
 
 end
