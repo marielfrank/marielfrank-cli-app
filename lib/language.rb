@@ -8,17 +8,34 @@ class Language
     @@all << self
   end
 
+  # turn name into symbol
+  def symbolize
+    @name.split(" ").join("_").to_sym
+  end
+
   # list all languages that have been created
   def self.all
     @@all
   end
 
-  def self.find_or_create(lang_name)
-    # search @@all for self
-    # if exist, return self
-    # otherwise, self.new, search LANGUAGES hash and set code
-    # return self
+  # create by name
+  def self.create(lang_name)
+    new_lang = self.new
+    new_lang.name = lang_name
+    new_lang.code = LANGUAGES[new_lang.symbolize]
+    new_lang
   end
+
+  # find or create by name
+  def self.find_or_create(lang_name)
+    found = @@all.detect {|lang| lang.name == lang_name}
+    if found == nil
+      self.create(lang_name)
+    else
+      found
+    end
+  end
+
 end
 
 LANGUAGES = {

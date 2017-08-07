@@ -5,19 +5,24 @@ class WebScraper
   def initialize(language, phrase)
     @language = language
     @phrase = phrase
+    @language.phrases << @phrase
+    @url = self.url
+    @language.urls << @url unless @language.urls.include?(@url)
   end
 
-  #scrape method
-    # uses open-uri & nokogiri
-    # gets translation for phrase in given language
-  def scrape
-    parsed_phrase = @phrase.split(" ").join("%20")
-    code = LANGUAGES[language.to_sym]
-    @url = "https://translate.google.com/#en/#{code}/#{parsed_phrase}"
-    html = open(url, "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36")
-    doc = Nokogiri::HTML(html)
-    doc.css('#result_box span')
+  def url
+    parsed_phrase = @phrase.split(" ").join("%20").gsub(/[^0-9a-z [%20]]/i, '')
+    code = @language.code
+    "https://translate.google.com/#en/#{code}/#{parsed_phrase}"
   end
+
+  def scrape
+    html = open(@url)
+    doc = Nokogiri::HTML(html)
+    binding.pry
+    doc.css('#result_box span').text
+  end
+
   #scrape_details method
     # pulls detailed translation/alternate translations for given language
   # scraper pulls google's language code from language hash
