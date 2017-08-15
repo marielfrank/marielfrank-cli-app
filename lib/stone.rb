@@ -21,6 +21,14 @@ class Stone
     Language.find_or_create(lang_name)
   end
 
+  # translate phrase into each language and print to console
+  def translate(phrase)
+    @langs.each do |lang|
+      translation = Translator::TRANSLATOR.translate phrase, to: lang.code
+      puts translation
+    end
+  end
+
   # list all language stones that have been created
   def self.all
     @@all

@@ -1,30 +1,119 @@
 module Translator
-  def initialize(language, phrase)
-    @language = language
-    @phrase = phrase
-    @language.phrases << @phrase
-  end
-  #initialize accepts a stone
-  #translate accepts argument of phrase, initializes new webscrape object for each non-nil language
-  #details checks most recent translator object and gets detailed view of specific lang's translation with further translations, transliterations
 
   # Your Google Cloud Platform project ID
   project_id = "rosetta-search"
 
   # Instantiates a client
-  TRANSLATE = Google::Cloud::Translate.new(
+  TRANSLATOR = Google::Cloud::Translate.new(
     project: project_id,
     key: ENV["rosetta_key"]
   )
 
-# The text to translate
-text = "Hello, world!"
-# The target language
-target = "ru"
+  # hash of languages & codes (https://cloud.google.com/translate/docs/languages)
+  LANGUAGES = {
+    afrikaans: "af",
+    albanian: "sq",
+    amharic: "am",
+    arabic: "ar",
+    armenian: "hy",
+    azeerbaijani: "az",
+    basque: "eu",
+    belarusian: "be",
+    bengali: "bn",
+    bosnian: "bs",
+    bulgarian: "bg",
+    catalan: "ca",
+    cebuano: "ceb",
+    chinese_simplified: "zh",
+    chinese_traditional: "zh-tw",
+    corsican: "co",
+    croatian: "hr",
+    czech: "cs",
+    danish: "da",
+    dutch: "nl",
+    english: "en",
+    esperanto: "eo",
+    estonian: "et",
+    finnish: "fi",
+    french: "fr",
+    frisian: "fy",
+    galician: "gl",
+    georgian: "ka",
+    german: "de",
+    greek: "el",
+    gujarati: "gu",
+    haitian_creole: "ht",
+    hausa: "ha",
+    hawaiian: "haw",
+    hebrew: "iw",
+    hindi: "hi",
+    hmong: "hmn",
+    hungarian: "hu",
+    icelandic: "is",
+    igbo: "ig",
+    indonesian: "id",
+    irish: "ga",
+    italian: "it",
+    japanese: "ja",
+    javanese: "jw",
+    kannada: "kn",
+    kazakh: "kk",
+    khmer: "km",
+    korean: "ko",
+    kurdish: "ku",
+    kyrgyz: "ky",
+    lao: "lo",
+    latin: "la",
+    latvian: "lv",
+    lithuanian: "lt",
+    luxembourgish: "lb",
+    macedonian: "mk",
+    malagasy: "mg",
+    malay: "ms",
+    malayalam: "ml",
+    maori: "mi",
+    marathi: "mr",
+    mongolian: "mn",
+    myanmar: "my",
+    nepali: "ne",
+    norwegian: "no",
+    nyanja: "ny",
+    pashto: "ps",
+    persian: "fa",
+    polish: "pl",
+    portuguese: "pt",
+    punjabi: "ma",
+    romanian: "ro",
+    russian: "ru",
+    samoan: "sm",
+    scots_gaelic: "gd",
+    serbian: "sr",
+    sesotho: "st",
+    shona: "sn",
+    sindhi: "sd",
+    sinhala: "si",
+    slovak: "sk",
+    slovenian: "sl",
+    somali: "so",
+    spanish: "es",
+    sundanese: "su",
+    swahili: "sw",
+    swedish: "sv",
+    tagalog: "tl",
+    tajik: "tg",
+    tamil: "ta",
+    telugu: "te",
+    thai: "th",
+    turkish: "tr",
+    ukrainian: "uk",
+    urdu: "ur",
+    uzbek: "uz",
+    vietnamese: "vi",
+    welsh: "cy",
+    xhosa: "xh",
+    yiddish: "yi",
+    yoruba: "yo",
+    zulu: "zu"
+  }
 
-# Translates some text into Russian
-# translation = translate.translate text, to: target
-
-# puts "Text: #{text}"
-# puts "Translation: #{translation}"
 end
