@@ -2,6 +2,8 @@
 source "https://rubygems.org"
 
 gem 'pry'
-gem 'nokogiri'
+gem "dotenv"
+gem "nokogiri"
+gem 'google-cloud-translate'
 gem 'require_all'
 gem 'rspec'

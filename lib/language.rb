@@ -1,10 +1,9 @@
 class Language
   @@all = []
-  attr_accessor :name, :code, :urls, :phrases
+  attr_accessor :name, :code, :phrases
 
   def initialize
     @phrases = []
-    @urls = []
     @@all << self
   end
 
@@ -36,8 +35,20 @@ class Language
     end
   end
 
+  # get wordreference code
+  def wordrefy
+    if @name == "czech"
+      "encz"
+    elsif @name == "greek"
+      "engr"
+    else
+      "en#{@code}"
+    end
+  end
+
 end
 
+# hash of languages & codes (https://cloud.google.com/translate/docs/languages)
 LANGUAGES = {
   afrikaans: "af",
   albanian: "sq",
@@ -143,5 +154,3 @@ LANGUAGES = {
   yoruba: "yo",
   zulu: "zu"
 }
-
-# hash of languages & codes (https://cloud.google.com/translate/docs/languages)

@@ -4,22 +4,30 @@ require_relative '../config/environment'
 
 puts "Welcome to Rosetta Search!"
 puts "You can translate from English into several languages at once :)"
-puts "How many languages would you like for your translation?"
-puts "1, 2, 3, or 4?"
-language_count = gets.strip.to_i
-puts "Great! Let's choose some languages.\nWhat would you like your first language to be?"
-lang1_pick = gets.strip.downcase
+# puts "How many languages would you like for your translation?"
+# puts "1, 2, 3, or 4?"
+# language_count = gets.strip.to_i
+# puts "Great! Let's choose some languages.\nWhat would you like your first language to be?"
+# lang1_pick = gets.strip.downcase
 # puts "Now choose your second language:"
-lang2_pick = nil
+# lang2_pick = nil
 # puts "And your third language:"
-lang3_pick = nil
+# lang3_pick = nil
 # puts "And finally, your fourth language:"
-lang4_pick = nil
-puts "You'll be translating into:"
-[lang1_pick, lang2_pick, lang3_pick, lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
+# lang4_pick = nil
+# puts "You'll be translating into:"
+# [lang1_pick, lang2_pick, lang3_pick, lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
 
-lang = Language.create(lang1_pick)
-puts lang.name
-scraper = WebScraper.new(lang, "Is this working?")
-puts scraper
-puts scraper.scrape
+# lang = Language.create(lang1_pick)
+# puts lang.name
+# scraper = WebScraper.new(lang, "Is this working?")
+# puts scraper
+# puts scraper.scrape
+#
+# translation = Translator::TRANSLATE.translate "Hello world!", to: "es"
+# puts translation
+
+german = Language.create("german")
+scraper = DetailScraper.new(german, "oil")
+puts scraper.url
+scraper.scrape
