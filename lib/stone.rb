@@ -1,17 +1,25 @@
 class Stone
   @@all = []
-  attr_accessor :lang1, :lang2, :lang3, :lang4
+  attr_accessor :langs, :lang1, :lang2, :lang3, :lang4
 
   # create a new language stone
   def initialize(lang1, lang2 = nil, lang3 = nil, lang4 = nil)
-    @lang1 = lang1
-    @lang2 = lang1
-    @lang3 = lang1
-    @lang4 = lang1
+    @langs = []
+    @lang1 = find_or_create_language(lang1)
+    @lang2 = find_or_create_language(lang2)
+    @lang3 = find_or_create_language(lang3)
+    @lang4 = find_or_create_language(lang4)
+    @langs << @lang1
+    @langs << @lang2
+    @langs << @lang3
+    @langs << @lang4
     @@all << self
   end
 
   # find_or_create_language
+  def find_or_create_language(lang_name)
+    Language.find_or_create(lang_name)
+  end
 
   # list all language stones that have been created
   def self.all

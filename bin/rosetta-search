@@ -26,8 +26,15 @@ puts "You can translate from English into several languages at once :)"
 #
 # translation = Translator::TRANSLATE.translate "Hello world!", to: "es"
 # puts translation
+puts "please enter a word or phrase"
+phrase = gets.strip
+stone = Stone.new("french", "german", "chinese simplified", "arabic")
+puts stone.langs
+stone.langs.each do |lang|
+  puts Translator::TRANSLATE.translate phrase, to: lang.code
+end
 
-chinese = Language.create("chinese simplified")
-scraper = DetailScraper.new(chinese, "cat")
-puts scraper.url
-scraper.scrape
+# chinese = Language.create("chinese simplified")
+# scraper = DetailScraper.new(chinese, "cat")
+# puts scraper.url
+# scraper.scrape
