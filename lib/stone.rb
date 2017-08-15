@@ -24,8 +24,9 @@ class Stone
   # translate phrase into each language and print to console
   def translate(phrase)
     @langs.each do |lang|
+      lang.phrases << phrase
       translation = Translator::TRANSLATOR.translate phrase, to: lang.code
-      puts translation
+      puts "#{lang}: #{translation}"
     end
   end
 
