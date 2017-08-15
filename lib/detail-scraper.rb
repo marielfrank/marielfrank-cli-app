@@ -20,10 +20,12 @@ class DetailScraper
       html = open(@url)
       doc = Nokogiri::HTML(html)
       puts "Your word: " + doc.css('.WRD:first-of-type .even:first-of-type .FrWrd strong').text + ", " + doc.css('.WRD:first-of-type .even:first-of-type .FrWrd em span').text
-      puts "English meaning:" + doc.css('.WRD:first-of-type .even:first-of-type .FrWrd + td').text
+      puts "Meaning:" + doc.css('.WRD:first-of-type .even:first-of-type .FrWrd + td').text
       puts "Translation in #{@language.name.capitalize}: " + doc.css('.WRD:first-of-type .even:first-of-type .ToWrd').text
-      puts "Example sentence in English: " + doc.css('.WRD:first-of-type .even:nth-of-type(2) .FrEx').text
-      puts "Example sentence in #{@language.name.capitalize}: " + doc.css('.WRD:first-of-type .even:nth-of-type(3) .ToEx').text unless doc.css('.WRD:first-of-type .even:nth-of-type(3) .ToEx') == nil
+      en_examples = doc.css('.WRD:first-of-type .FrEx').text.split(".")
+      puts "Example sentence in English: " + "#{en_examples[0]}." unless en_examples == nil
+      lg_examples = doc.css('.WRD:first-of-type .ToEx').text.split(/\?|\.|\。|\!|\！|\？/)
+      puts "Example sentence in #{@language.name.capitalize}: " + "#{lg_examples[0]}." unless lg_examples == nil
     else
       puts "We cannot find examples for that particular language."
     end

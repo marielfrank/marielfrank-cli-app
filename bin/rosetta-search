@@ -27,7 +27,7 @@ puts "You can translate from English into several languages at once :)"
 # translation = Translator::TRANSLATE.translate "Hello world!", to: "es"
 # puts translation
 
-german = Language.create("german")
-scraper = DetailScraper.new(german, "oil")
+chinese = Language.create("chinese simplified")
+scraper = DetailScraper.new(chinese, "cat")
 puts scraper.url
 scraper.scrape
