@@ -4,61 +4,8 @@ require_relative '../config/environment'
 
 puts "Welcome to Rosetta Search!"
 puts "You can translate from English into several languages at once :)"
-puts "How many languages would you like for your translation?"
+start = Translator.new
+start.new_translation
 
-def pick_a_number
-  puts "Please choose a number between 1 and 4."
-  language_count = gets.strip.to_i
-  # binding.pry
-  if language_count < 1 || language_count > 4
-    pick_a_number
-  end
-  language_count
-end
-language_count = pick_a_number
-puts "Great! Let's choose your language(s)."
-puts "If you'd like to see a list of languages available for translation, please enter 'list languages'. Otherwise, hit 'Enter'."
-def list_languages
-  string = ""
-  Translator::LANGUAGES.each do |lang, code|
-    string << "#{lang.to_s.capitalize}, "
-  end
-  puts string.gsub(/, $/, "").gsub("_", " ")
-end
-input = gets.strip
-if input == "list languages"
-  list_languages
-end
-puts "What would you like your first language to be?"
-lang1_pick = gets.strip.downcase
-lang2_pick = nil
-lang3_pick = nil
-lang4_pick = nil
-if language_count > 3
-  puts "Now choose your second language:"
-  lang2_pick = gets.strip.downcase
-  puts "And your third language:"
-  lang3_pick = gets.strip.downcase
-  puts "And finally, your fourth language:"
-  lang4_pick = gets.strip.downcase
-elsif language_count > 2
-  puts "Now choose your second language:"
-  lang2_pick = gets.strip.downcase
-  puts "And your third language:"
-  lang3_pick = gets.strip.downcase
-elsif language_count > 1
-  puts "Now choose your second language:"
-  lang2_pick = gets.strip.downcase
-end
-puts "You'll be translating into:"
-[lang1_pick, lang2_pick, lang3_pick, lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
-
-puts "Please enter the word or phrase that you would like to translate into:"
-phrase = gets.strip
-stone = Stone.new(lang1_pick, lang2_pick, lang3_pick, lang4_pick)
-stone.translate(phrase)
-
-# chinese = Language.create("chinese simplified")
 # scraper = DetailScraper.new(chinese, "cat")
-# puts scraper.url
 # scraper.scrape

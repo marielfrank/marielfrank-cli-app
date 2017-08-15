@@ -21,7 +21,7 @@ class Language
   def self.create(lang_name)
     new_lang = self.new
     new_lang.name = lang_name
-    new_lang.code = Translator::LANGUAGES[new_lang.symbolize]
+    new_lang.code = Google_Stuff::LANGUAGES[new_lang.symbolize]
     new_lang
   end
 

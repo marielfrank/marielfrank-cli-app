@@ -25,7 +25,7 @@ class Stone
   def translate(phrase)
     @langs.each do |lang|
       lang.phrases << phrase
-      translation = Translator::TRANSLATOR.translate phrase, to: lang.code
+      translation = Google_Stuff::TRANSLATOR.translate phrase, to: lang.code
       puts "#{lang.name}: #{translation}"
     end
   end

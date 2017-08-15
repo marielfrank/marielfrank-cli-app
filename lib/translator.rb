@@ -1,5 +1,96 @@
-module Translator
+class Translator
+  attr_accessor :language_count, :stone, :lang1_pick, :lang2_pick, :lang3_pick, :lang4_pick, :phrase
 
+  def pick_a_number
+    puts "Please choose a number between 1 and 4."
+    @language_count = gets.strip.to_i
+    if @language_count < 1 || @language_count > 4
+      pick_a_number
+    end
+  end
+
+  def list_languages
+    string = ""
+    Google_Stuff::LANGUAGES.each do |lang, code|
+      string << "#{lang.to_s.capitalize}, "
+    end
+    puts string.gsub(/, $/, "").gsub("_", " ")
+  end
+
+  def pick_languages
+    @lang1_pick = nil
+    @lang2_pick = nil
+    @lang3_pick = nil
+    @lang4_pick = nil
+    puts "What would you like your first language to be?"
+    @lang1_pick = gets.strip.downcase
+    if @language_count > 3
+      puts "Now choose your second language:"
+      @lang2_pick = gets.strip.downcase
+      puts "And your third language:"
+      @lang3_pick = gets.strip.downcase
+      puts "And finally, your fourth language:"
+      @lang4_pick = gets.strip.downcase
+    elsif @language_count > 2
+      puts "Now choose your second language:"
+      @lang2_pick = gets.strip.downcase
+      puts "And your third language:"
+      lang3_pick = gets.strip.downcase
+    elsif @language_count > 1
+      puts "Now choose your second language:"
+      lang2_pick = gets.strip.downcase
+    end
+    puts "You'll be translating into:"
+    [@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
+    @stone = Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
+  end
+
+  def set_phrase
+    puts "Please enter the word or phrase that you would like to translate into:"
+    @phrase = gets.strip
+  end
+
+  def new_translation
+    puts "How many languages would you like for your translation?"
+    pick_a_number
+    puts "Great! Let's choose your language(s)."
+    puts "If you'd like to see a list of languages available for translation, please enter 'list languages'. Otherwise, hit 'Enter'."
+    input = gets.strip
+    list_languages if input == "list languages"
+    pick_languages
+    set_phrase
+    @stone.translate(@phrase)
+    menu
+  end
+
+  def menu
+    puts "To pick new languages, enter 'new languages',
+    to translate a new phrase, enter 'new phrase',
+    to get details/examples for a specific word, enter 'details',
+    or to exit, please enter 'exit'."
+    input = gets.strip
+    case input
+    when "new languages"
+      new_translation
+    when "new phrase"
+      set_phrase
+      @stone.translate(@phrase)
+    when "details"
+      puts "Which language would you like details for?"
+      deet_lang = gets.strip
+      puts "Great. Which word of #{@phrase} would you like further details on?"
+      deet_word = gets.strip
+      details = DetailScraper.new(deet_lang, deet_word)
+      details.scrape
+    when "exit"
+      return
+    end
+    menu
+  end
+
+end
+
+module Google_Stuff
   # Your Google Cloud Platform project ID
   project_id = "rosetta-search"
 
@@ -24,8 +115,8 @@ module Translator
     bulgarian: "bg",
     catalan: "ca",
     cebuano: "ceb",
-    chinese_simplified: "zh",
-    chinese_traditional: "zh-tw",
+    chinese: "zh",
+    taiwanese: "zh-tw",
     corsican: "co",
     croatian: "hr",
     czech: "cs",
