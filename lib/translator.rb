@@ -82,7 +82,7 @@ module Translator
     persian: "fa",
     polish: "pl",
     portuguese: "pt",
-    punjabi: "ma",
+    punjabi: "pa",
     romanian: "ro",
     russian: "ru",
     samoan: "sm",

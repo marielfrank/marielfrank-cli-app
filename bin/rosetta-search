@@ -16,9 +16,20 @@ def pick_a_number
   language_count
 end
 language_count = pick_a_number
-puts "Great! Let's choose your language(s).\nWhat would you like your first language to be?"
-puts "If you'd like to see a list of languages available for translation, please enter 'list languages'."
-
+puts "Great! Let's choose your language(s)."
+puts "If you'd like to see a list of languages available for translation, please enter 'list languages'. Otherwise, hit 'Enter'."
+def list_languages
+  string = ""
+  Translator::LANGUAGES.each do |lang, code|
+    string << "#{lang.to_s.capitalize}, "
+  end
+  puts string.gsub(/, $/, "").gsub("_", " ")
+end
+input = gets.strip
+if input == "list languages"
+  list_languages
+end
+puts "What would you like your first language to be?"
 lang1_pick = gets.strip.downcase
 lang2_pick = nil
 lang3_pick = nil
