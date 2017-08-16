@@ -1,8 +1,9 @@
 class Stone
+  # Rosetta Stone metaphor - object that stores languages together as a unit
   @@all = []
   attr_accessor :langs, :lang1, :lang2, :lang3, :lang4
 
-  # create a new language stone
+  # create a new language stone with up to four languages
   def initialize(lang1, lang2 = nil, lang3 = nil, lang4 = nil)
     @langs = []
     @lang1 = find_or_create_language(lang1)
@@ -16,7 +17,7 @@ class Stone
     @@all << self
   end
 
-  # find_or_create_language
+  # find or create language by name
   def find_or_create_language(lang_name)
     Language.find_or_create(lang_name)
   end
@@ -26,7 +27,6 @@ class Stone
     puts "-------------------"
     puts ""
     @langs.each do |lang|
-      lang.phrases << phrase
       translation = Google_Stuff::TRANSLATOR.translate phrase, to: lang.code
       puts "#{lang.name.capitalize}: #{translation}"
     end

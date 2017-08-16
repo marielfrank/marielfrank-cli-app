@@ -1,13 +1,13 @@
 class Language
   @@all = []
-  attr_accessor :name, :code, :phrases
+  attr_accessor :name, :code
 
+  # new language adds self to all languages created
   def initialize
-    @phrases = []
     @@all << self
   end
 
-  # turn name into symbol
+  # turn name into symbol for searching Google language hash
   def symbolize
     @name.split(" ").join("_").to_sym
   end
@@ -35,7 +35,7 @@ class Language
     end
   end
 
-  # get wordreference code
+  # get wordreference code for detail scraping
   def wordrefy
     if @name == "czech"
       "encz"

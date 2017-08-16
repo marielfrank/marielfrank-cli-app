@@ -2,7 +2,10 @@
 
 require_relative '../config/environment'
 
+# welcome message
 puts "Welcome to Rosetta Search!"
 puts "You can translate from English into several languages at once :)"
+
+# instantiate a new translator
 rosetta_search = Translator.new
 rosetta_search.new_translation

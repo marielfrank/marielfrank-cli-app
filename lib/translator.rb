@@ -1,14 +1,16 @@
 class Translator
   attr_accessor :language_count, :stone, :lang1_pick, :lang2_pick, :lang3_pick, :lang4_pick, :phrase
 
+  # pick how many languages for translation
   def pick_a_number
     puts "Please choose a number between 1 and 4."
-    @language_count = gets.strip.to_i
-    if @language_count < 1 || @language_count > 4
+    @language_count = gets.strip.to_i # turn string to integer
+    if @language_count < 1 || @language_count > 4 # make sure number is within range
       pick_a_number
     end
   end
 
+  # list languages available for translation through Google Cloud Translation API
   def list_languages
     string = ""
     Google_Stuff::LANGUAGES.each do |lang, code|
@@ -17,6 +19,7 @@ class Translator
     puts string.gsub(/, $/, "").gsub("_", " ")
   end
 
+  # reset languages and choose new ones
   def pick_languages
     @lang1_pick = nil
     @lang2_pick = nil
@@ -36,23 +39,25 @@ class Translator
       @lang2_pick = gets.strip.downcase
       puts "And your third language:"
       @lang3_pick = gets.strip.downcase
-      # binding.pry
     elsif @language_count > 1
       puts "Now choose your second language:"
       @lang2_pick = gets.strip.downcase
     end
     puts "You'll be translating '#{phrase}' into:"
-
+    # list languages picked for translation
     [@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
+    # create new language stone from picked languages
     @stone = Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
   end
 
+  # set new phrase for translation
   def set_phrase
     puts "Please enter the phrase that you would like to translate:"
     @phrase = gets.strip
     puts "Excellent."
   end
 
+  # primary CLI method
   def new_translation
     set_phrase if @phrase == nil
     puts "How many languages would you like for your translation?"
@@ -66,6 +71,7 @@ class Translator
     menu
   end
 
+  # continued menu options are presented once first translation is complete
   def menu
     puts ""
     puts "-------------------"
@@ -95,124 +101,5 @@ class Translator
       return
     end
   end
-
-end
-
-module Google_Stuff
-  # Your Google Cloud Platform project ID
-  project_id = "rosetta-search"
-
-  # Instantiates a client
-  TRANSLATOR = Google::Cloud::Translate.new(
-    project: project_id,
-    key: ENV["rosetta_key"]
-  )
-
-  # hash of languages & codes (https://cloud.google.com/translate/docs/languages)
-  LANGUAGES = {
-    afrikaans: "af",
-    albanian: "sq",
-    amharic: "am",
-    arabic: "ar",
-    armenian: "hy",
-    azeerbaijani: "az",
-    basque: "eu",
-    belarusian: "be",
-    bengali: "bn",
-    bosnian: "bs",
-    bulgarian: "bg",
-    catalan: "ca",
-    cebuano: "ceb",
-    chinese: "zh",
-    taiwanese: "zh-tw",
-    corsican: "co",
-    croatian: "hr",
-    czech: "cs",
-    danish: "da",
-    dutch: "nl",
-    english: "en",
-    esperanto: "eo",
-    estonian: "et",
-    finnish: "fi",
-    french: "fr",
-    frisian: "fy",
-    galician: "gl",
-    georgian: "ka",
-    german: "de",
-    greek: "el",
-    gujarati: "gu",
-    haitian_creole: "ht",
-    hausa: "ha",
-    hawaiian: "haw",
-    hebrew: "iw",
-    hindi: "hi",
-    hmong: "hmn",
-    hungarian: "hu",
-    icelandic: "is",
-    igbo: "ig",
-    indonesian: "id",
-    irish: "ga",
-    italian: "it",
-    japanese: "ja",
-    javanese: "jw",
-    kannada: "kn",
-    kazakh: "kk",
-    khmer: "km",
-    korean: "ko",
-    kurdish: "ku",
-    kyrgyz: "ky",
-    lao: "lo",
-    latin: "la",
-    latvian: "lv",
-    lithuanian: "lt",
-    luxembourgish: "lb",
-    macedonian: "mk",
-    malagasy: "mg",
-    malay: "ms",
-    malayalam: "ml",
-    maori: "mi",
-    marathi: "mr",
-    mongolian: "mn",
-    myanmar: "my",
-    nepali: "ne",
-    norwegian: "no",
-    nyanja: "ny",
-    pashto: "ps",
-    persian: "fa",
-    polish: "pl",
-    portuguese: "pt",
-    punjabi: "pa",
-    romanian: "ro",
-    russian: "ru",
-    samoan: "sm",
-    scots_gaelic: "gd",
-    serbian: "sr",
-    sesotho: "st",
-    shona: "sn",
-    sindhi: "sd",
-    sinhala: "si",
-    slovak: "sk",
-    slovenian: "sl",
-    somali: "so",
-    spanish: "es",
-    sundanese: "su",
-    swahili: "sw",
-    swedish: "sv",
-    tagalog: "tl",
-    tajik: "tg",
-    tamil: "ta",
-    telugu: "te",
-    thai: "th",
-    turkish: "tr",
-    ukrainian: "uk",
-    urdu: "ur",
-    uzbek: "uz",
-    vietnamese: "vi",
-    welsh: "cy",
-    xhosa: "xh",
-    yiddish: "yi",
-    yoruba: "yo",
-    zulu: "zu"
-  }
 
 end
