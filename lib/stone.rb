@@ -25,7 +25,6 @@ class Stone
   # translate phrase into each language and print to console
   def translate(phrase)
     puts "-------------------"
-    puts ""
     @langs.each do |lang|
       translation = Google_Stuff::TRANSLATOR.translate phrase, to: lang.code
       puts "#{lang.name.capitalize}: #{translation}"

@@ -1,5 +1,18 @@
 class Translator
-  attr_accessor :language_count, :stone, :lang1_pick, :lang2_pick, :lang3_pick, :lang4_pick, :phrase
+  attr_accessor :language_count, :stone, :lang1_pick, :lang2_pick, :lang3_pick, :lang4_pick, :phrase, :greeted
+
+  def initialize(greeted = false)
+    @greeted = greeted
+  end
+
+  # greet user
+  def greet
+    # welcome message
+    puts "Welcome to Rosetta Search!"
+    puts "You can translate from English into several languages at once :)"
+    # change @greeted to true
+    @greeted = true
+  end
 
   # pick how many languages for translation
   def pick_a_number
@@ -43,6 +56,7 @@ class Translator
       puts "Now choose your second language:"
       @lang2_pick = gets.strip.downcase
     end
+    puts "-------------------"
     puts "You'll be translating '#{phrase}' into:"
     # list languages picked for translation
     [@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
@@ -59,6 +73,7 @@ class Translator
 
   # primary CLI method
   def new_translation
+    greet if @greeted == false
     set_phrase if @phrase == nil
     puts "How many languages would you like for your translation?"
     pick_a_number
@@ -73,14 +88,12 @@ class Translator
 
   # continued menu options are presented once first translation is complete
   def menu
-    puts ""
     puts "-------------------"
     puts "To pick new languages, enter 'new languages',
     to translate a new phrase, enter 'new phrase',
     to get details/examples for a specific word, enter 'details',
     or to exit, please enter 'exit'."
     puts "-------------------"
-    puts ""
     input = gets.strip
     case input
     when "new languages"
