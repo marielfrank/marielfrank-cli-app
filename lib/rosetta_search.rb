@@ -1,5 +1,11 @@
-# require "rosetta_search/version"
+require_relative "./rosetta_search/version"
+require 'bundler'
+Bundler.require
 
-module RosettaSearch
-  # Your code goes here...
-end
+require 'require_all'
+Dotenv.load
+require 'open-uri'
+require 'google/cloud/translate'
+
+# load all ruby files in the directory "lib" and its subdirectories
+require_all 'lib'

@@ -1,6 +1,6 @@
 # Rosetta Search CLI
 
-A command line application that provides translations for up to four languages at a time using Ruby and Google Cloud Translation API.
+A command line application that provides translations for up to four languages at a time using Ruby and Google Cloud Translation API. Detailed translations of specific words are provided through scraping wordreference.com with Nokogiri and Open-URI.
 
 ## Installation
 

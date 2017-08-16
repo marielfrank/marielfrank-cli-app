@@ -1,4 +1,4 @@
-class Translator
+class RosettaSearch::CLI
   attr_accessor :language_count, :stone, :lang1_pick, :lang2_pick, :lang3_pick, :lang4_pick, :phrase, :greeted
 
   def initialize(greeted = false)
@@ -72,7 +72,7 @@ class Translator
   end
 
   # primary CLI method
-  def new_translation
+  def call
     greet if @greeted == false
     set_phrase if @phrase == nil
     puts "How many languages would you like for your translation?"
