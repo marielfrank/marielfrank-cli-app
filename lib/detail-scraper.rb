@@ -34,12 +34,12 @@ class DetailScraper
       # example of word in sentence in english
       en_examples = doc.css('.WRD:first-of-type .FrEx').text.split(".")
       puts "------"
-      puts "Example sentence in English: " + "#{en_examples[0]}." unless en_examples == nil
+      puts "Example sentence in English: #{en_examples[0]}." unless en_examples == nil
       # example of word in sentence in target language
       lg_examples = doc.css('.WRD:first-of-type .ToEx').text.split(/\?|\.|\。|\!|\！|\？/)
-      puts "Example sentence in #{@language.name.capitalize}: " + "#{lg_examples[0]}." unless lg_examples == nil
+      puts "Example sentence in #{@language.name.capitalize}: #{lg_examples[0]}." unless lg_examples == nil
     else
-      # tell user if language cannot be found on wordreference
+      # alert user if language cannot be found on wordreference
       puts "We cannot find examples for that particular language."
     end
   end

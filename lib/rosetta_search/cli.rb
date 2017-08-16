@@ -9,10 +9,19 @@ class RosettaSearch::CLI
   # greet user
   def greet
     # welcome message
-    puts "Welcome to Rosetta Search!"
-    puts "You can translate from English into several languages at once :)"
+    puts <<-DOC.gsub /^\s*/, ""
+      Welcome to Rosetta Search!
+      You can translate from English into several languages at once :)
+    DOC
     # change @greeted to true
     @greeted = true
+  end
+
+  # set new phrase for translation
+  def set_phrase
+    puts "Please enter the phrase that you would like to translate:"
+    @phrase = gets.strip
+    puts "Excellent."
   end
 
   # pick how many languages for translation
@@ -66,6 +75,14 @@ class RosettaSearch::CLI
 
   # reset languages and choose new ones
   def pick_languages
+    puts "How many languages would you like for your translation?"
+    pick_a_number
+    puts "Great! Let's choose your language(s)."
+    puts "If you'd like to see a list of languages available for translation,
+please enter 'list languages'. Otherwise, press 'Enter'."
+    input = gets.strip
+    list_languages if input == "list languages"
+    puts "-------------------"
     @lang1_pick = nil
     @lang2_pick = nil
     @lang3_pick = nil
@@ -97,63 +114,62 @@ class RosettaSearch::CLI
     end
     # create new language stone from picked languages
     @stone = Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
+    translate
   end
 
-  # set new phrase for translation
-  def set_phrase
-    puts "Please enter the phrase that you would like to translate:"
-    @phrase = gets.strip
-    puts "Excellent."
+  # run translation
+  def translate
+    @stone.translate(@phrase)
+  end
+
+  def get_details
+    puts "Which language would you like details for?"
+    deet_lang = Language.find_or_create(gets.strip)
+    puts "Great. Which word of '#{@phrase}' would you like further details on?"
+    deet_word = gets.strip
+    details = DetailScraper.new(deet_lang, deet_word)
+    details.scrape
   end
 
   # primary CLI method
   def call
     greet if @greeted == false
     set_phrase if @phrase == nil
-    puts "How many languages would you like for your translation?"
-    pick_a_number
-    puts "Great! Let's choose your language(s)."
-    puts "If you'd like to see a list of languages available for translation,
-please enter 'list languages'. Otherwise, press 'Enter'."
-    input = gets.strip
-    list_languages if input == "list languages"
-    puts "-------------------"
     pick_languages
-    @stone.translate(@phrase)
     menu
+    goodbye
   end
 
   # continued menu options are presented once first translation is complete
   def menu
-    puts "-------------------"
-    puts "To pick new languages, enter 'new languages',
-to translate a new phrase, enter 'new phrase',
-to get details/examples for a specific word, enter 'details',
-or to exit, please enter 'exit'."
-    puts "-------------------"
-    input = gets.strip
-    case input
-    when "new languages"
-      # run a new translation with current phrase
-      new_translation
-    when "new phrase"
-      # get a new phrase and translate into current languages
-      set_phrase
-      @stone.translate(@phrase)
-      menu
-    when "details"
-      # get word and language, scrape wordreference for details
-      puts "Which language would you like details for?"
-      deet_lang = Language.find_or_create(gets.strip)
-      puts "Great. Which word of '#{@phrase}' would you like further details on?"
-      deet_word = gets.strip
-      details = DetailScraper.new(deet_lang, deet_word)
-      details.scrape
-      menu
-    when "exit"
-      # allow user to exit program
-      return
+    input = nil
+    while input != "exit"
+      puts "-------------------"
+      puts "To pick new languages, enter 'new languages',
+  to translate a new phrase, enter 'new phrase',
+  to get details/examples for a specific word, enter 'details',
+  or to exit the program, enter 'exit'."
+      puts "-------------------"
+      input = gets.strip
+      case input
+      when "new languages"
+        # run a new translation with current phrase
+        pick_languages
+      when "new phrase"
+        # get a new phrase and translate into current languages
+        set_phrase
+        translate
+      when "details"
+        # get word and language, scrape wordreference for details
+        get_details
+      else
+        puts "Sorry, that isn't a command I recognize." unless input == "exit"
+      end
     end
+  end
+
+  def goodbye
+    puts "Thank you for using Rosetta Search! Hope to see you again soon."
   end
 
 end
