@@ -35,39 +35,46 @@ class Translator
       puts "Now choose your second language:"
       @lang2_pick = gets.strip.downcase
       puts "And your third language:"
-      lang3_pick = gets.strip.downcase
+      @lang3_pick = gets.strip.downcase
+      # binding.pry
     elsif @language_count > 1
       puts "Now choose your second language:"
-      lang2_pick = gets.strip.downcase
+      @lang2_pick = gets.strip.downcase
     end
-    puts "You'll be translating into:"
+    puts "You'll be translating '#{phrase}' into:"
+
     [@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick].each {|lang| puts lang.capitalize if lang != nil}
     @stone = Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
   end
 
   def set_phrase
-    puts "Please enter the word or phrase that you would like to translate into:"
+    puts "Please enter the phrase that you would like to translate:"
     @phrase = gets.strip
+    puts "Excellent."
   end
 
   def new_translation
+    set_phrase if @phrase == nil
     puts "How many languages would you like for your translation?"
     pick_a_number
     puts "Great! Let's choose your language(s)."
-    puts "If you'd like to see a list of languages available for translation, please enter 'list languages'. Otherwise, hit 'Enter'."
+    puts "If you'd like to see a list of languages available for translation, please enter 'list languages'. Otherwise, press 'Enter'."
     input = gets.strip
     list_languages if input == "list languages"
     pick_languages
-    set_phrase
     @stone.translate(@phrase)
     menu
   end
 
   def menu
+    puts ""
+    puts "-------------------"
     puts "To pick new languages, enter 'new languages',
     to translate a new phrase, enter 'new phrase',
     to get details/examples for a specific word, enter 'details',
     or to exit, please enter 'exit'."
+    puts "-------------------"
+    puts ""
     input = gets.strip
     case input
     when "new languages"
@@ -75,17 +82,18 @@ class Translator
     when "new phrase"
       set_phrase
       @stone.translate(@phrase)
+      menu
     when "details"
       puts "Which language would you like details for?"
-      deet_lang = gets.strip
-      puts "Great. Which word of #{@phrase} would you like further details on?"
+      deet_lang = Language.find_or_create(gets.strip)
+      puts "Great. Which word of '#{@phrase}' would you like further details on?"
       deet_word = gets.strip
       details = DetailScraper.new(deet_lang, deet_word)
       details.scrape
+      menu
     when "exit"
       return
     end
-    menu
   end
 
 end

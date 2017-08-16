@@ -4,8 +4,5 @@ require_relative '../config/environment'
 
 puts "Welcome to Rosetta Search!"
 puts "You can translate from English into several languages at once :)"
-start = Translator.new
-start.new_translation
-
-# scraper = DetailScraper.new(chinese, "cat")
-# scraper.scrape
+rosetta_search = Translator.new
+rosetta_search.new_translation
