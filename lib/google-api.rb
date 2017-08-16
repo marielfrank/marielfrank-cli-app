@@ -32,7 +32,6 @@ module Google_Stuff
     czech: "cs",
     danish: "da",
     dutch: "nl",
-    english: "en",
     esperanto: "eo",
     estonian: "et",
     finnish: "fi",

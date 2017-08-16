@@ -7,3 +7,4 @@ gem "nokogiri"
 gem 'google-cloud-translate'
 gem 'require_all'
 gem 'rspec'
+gem 'colorize'
