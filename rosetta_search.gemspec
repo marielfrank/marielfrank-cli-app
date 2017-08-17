@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["'Mariel F'"]
   spec.email         = ["'marielbeth@gmail.com'"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{A command line application that provides translations for up to four languages at a time and detailed translations of specific words.}
+  spec.description   = %q{This gem enables you to translate a word or phrase into up to four languages at the same time using Ruby and Google Cloud Translation API. Further translation information (including example usage) for individual words in some languages is provided through scraping wordreference.com with Nokogiri and Open-URI.}
+  spec.homepage      = "https://github.com/marielfrank/rosetta-search-cli-app"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
