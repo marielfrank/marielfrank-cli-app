@@ -1,4 +1,4 @@
-module Google_Stuff
+module RosettaSearch
 # contains all the Google Information needed for the API to run properly
 
   # Google Cloud Platform project ID

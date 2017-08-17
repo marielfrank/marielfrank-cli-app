@@ -9,24 +9,22 @@ class RosettaSearch::CLI
   # greet user
   def greet
     # welcome message
-    puts <<-DOC.gsub /^\s*/, ""
-      Welcome to Rosetta Search!
-      You can translate from English into several languages at once :)
-    DOC
+    puts "Welcome to Rosetta Search!".green
+    puts "You can translate from English into several languages at once :)".green
     # change @greeted to true
     @greeted = true
   end
 
   # set new phrase for translation
   def set_phrase
-    puts "Please enter the phrase that you would like to translate:"
+    puts "Please enter the phrase that you would like to translate:".green
     @phrase = gets.strip
-    puts "Excellent."
+    puts "Excellent.".green
   end
 
   # pick how many languages for translation
   def pick_a_number
-    puts "Please choose a number between 1 and 4."
+    puts "Please choose a number between 1 and 4.".green
     # turn string to integer
     @language_count = gets.strip.to_i
     # make sure number is within range
@@ -37,14 +35,14 @@ class RosettaSearch::CLI
 
   # create list of languages available for translation through Google Cloud Translation API
   def valid_languages
-    Google_Stuff::LANGUAGES.map do |lang, code|
+    RosettaSearch::LANGUAGES.map do |lang, code|
       lang.to_s.capitalize.gsub("_", " ")
     end
   end
 
   # list languages
   def list_languages
-    puts self.valid_languages.join(", ")
+    puts self.valid_languages.join(", ").cyan
   end
 
   # check if language is valid
@@ -62,12 +60,13 @@ class RosettaSearch::CLI
       language_pick = input
     else
       # error message
-      puts "Oops! Looks like we don't have that language. Please enter a language from our list."
+      puts "Oops! Looks like we don't have that language.".yellow
       # option to see full language list again
-      puts "You can enter 'list languages' to see the full list again."
-      list_languages if gets.strip == "list languages"
+      puts "Would you like to see the full list of languages again? (y/n)".green
+      gets.strip.downcase == "y" ? list_languages : puts("Good memory!".green)
       # try setting the language again
-      set_language
+      puts "Please enter a language from our list.".green
+      language_pick = set_language
     end
     # return the language name that we picked
     language_pick
@@ -75,11 +74,11 @@ class RosettaSearch::CLI
 
   # reset languages and choose new ones
   def pick_languages
-    puts "How many languages would you like for your translation?"
+    puts "How many languages would you like for your translation?".green
     pick_a_number
-    puts "Great! Let's choose your language(s)."
+    puts "Great! Let's choose your language(s).".green
     puts "If you'd like to see a list of languages available for translation,
-please enter 'list languages'. Otherwise, press 'Enter'."
+please enter 'list languages'. Otherwise, press 'Enter'.".green
     input = gets.strip
     list_languages if input == "list languages"
     puts "-------------------"
@@ -87,33 +86,33 @@ please enter 'list languages'. Otherwise, press 'Enter'."
     @lang2_pick = nil
     @lang3_pick = nil
     @lang4_pick = nil
-    puts "What would you like your first language to be?"
+    puts "What would you like your first language to be?".green
     @lang1_pick = set_language
     if @language_count > 3
-      puts "Now choose your second language:"
+      puts "Now choose your second language:".green
       @lang2_pick = set_language
-      puts "And your third language:"
+      puts "And your third language:".green
       @lang3_pick = set_language
-      puts "And finally, your fourth language:"
+      puts "And finally, your fourth language:".green
       @lang4_pick = set_language
     elsif @language_count > 2
-      puts "Now choose your second language:"
+      puts "Now choose your second language:".green
       @lang2_pick = set_language
-      puts "And your third language:"
+      puts "And your third language:".green
       @lang3_pick = set_language
     elsif @language_count > 1
-      puts "Now choose your second language:"
+      puts "Now choose your second language:".green
       @lang2_pick = set_language
     end
     puts @lang1_pick
     puts "-------------------"
-    puts "You'll be translating '#{phrase}' into:"
+    puts "You'll be translating '#{phrase}' into:".green
     # list languages picked for translation
     [@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick].each do |lang|
-      puts lang.capitalize if lang != nil
+      puts lang.capitalize.light_white if lang != nil
     end
     # create new language stone from picked languages
-    @stone = Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
+    @stone = RosettaSearch::Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
     translate
   end
 
@@ -123,11 +122,11 @@ please enter 'list languages'. Otherwise, press 'Enter'."
   end
 
   def get_details
-    puts "Which language would you like details for?"
-    deet_lang = Language.find_or_create(gets.strip)
-    puts "Great. Which word of '#{@phrase}' would you like further details on?"
+    puts "Which language would you like details for?".green
+    deet_lang = RosettaSearch::Language.find_or_create(gets.strip)
+    puts "Great. Which word of '#{@phrase}' would you like further details on?".green
     deet_word = gets.strip
-    details = DetailScraper.new(deet_lang, deet_word)
+    details = RosettaSearch::DetailScraper.new(deet_lang, deet_word)
     details.scrape
   end
 
@@ -146,9 +145,9 @@ please enter 'list languages'. Otherwise, press 'Enter'."
     while input != "exit"
       puts "-------------------"
       puts "To pick new languages, enter 'new languages',
-  to translate a new phrase, enter 'new phrase',
-  to get details/examples for a specific word, enter 'details',
-  or to exit the program, enter 'exit'."
+to translate a new phrase, enter 'new phrase',
+to get details/examples for a specific word, enter 'details',
+or to exit the program, enter 'exit'.".red
       puts "-------------------"
       input = gets.strip
       case input
@@ -163,13 +162,13 @@ please enter 'list languages'. Otherwise, press 'Enter'."
         # get word and language, scrape wordreference for details
         get_details
       else
-        puts "Sorry, that isn't a command I recognize." unless input == "exit"
+        puts "Sorry, that isn't a command I recognize.".yellow unless input == "exit"
       end
     end
   end
 
   def goodbye
-    puts "Thank you for using Rosetta Search! Hope to see you again soon."
+    puts "Thank you for using Rosetta Search! Hope to see you again soon.".green
   end
 
 end

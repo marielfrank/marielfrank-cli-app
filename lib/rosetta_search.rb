@@ -1,8 +1,9 @@
-require_relative "./rosetta_search/version"
 require 'bundler'
 Bundler.require
 
 require 'require_all'
+
+# require and load stuff that can't be loaded via require_all
 Dotenv.load
 require 'open-uri'
 require 'google/cloud/translate'
