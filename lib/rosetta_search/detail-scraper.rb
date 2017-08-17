@@ -24,20 +24,21 @@ module RosettaSearch
         html = open(@url)
         doc = Nokogiri::HTML(html)
         puts "-------------------"
+        top_translation = doc.css('.WRD:first-of-type')
         # word in english
-        puts "Your word: #{doc.css('.WRD:first-of-type .even:first-of-type .FrWrd strong').text}".cyan
+        puts "Your word: #{top_translation.css('.even:first-of-type .FrWrd strong').text}".cyan
         # part of speech in english
-        puts doc.css('.WRD:first-of-type .even:first-of-type .FrWrd em span').text.cyan
+        puts top_translation.css('.even:first-of-type .FrWrd em span').text.cyan
         # meaning of word (sometimes in both languages)
-        puts "Meaning:#{doc.css('.WRD:first-of-type .even:first-of-type .FrWrd + td').text}".cyan
+        puts "Meaning:#{top_translation.css('.even:first-of-type .FrWrd + td').text}".cyan
         # translation in target language
-        puts "Translation in #{@language.name.capitalize}: #{doc.css('.WRD:first-of-type .even:first-of-type .ToWrd').text}".cyan
+        puts "Translation in #{@language.name.capitalize}: #{top_translation.css('.even:first-of-type .ToWrd').text}".cyan
         # example of word in sentence in english
-        en_examples = doc.css('.WRD:first-of-type .FrEx').text.split(".")
+        en_examples = top_translation.css('.FrEx').text.split(/\?|\.|\!/)
         puts "------"
         puts "Example sentence in English: #{en_examples[0]}.".cyan unless en_examples == nil
         # example of word in sentence in target language
-        lg_examples = doc.css('.WRD:first-of-type .ToEx:not(.tooltip)').text.split(/\?|\.|\。|\!|\！|\？/)
+        lg_examples = top_translation.css('.ToEx:not(.tooltip)').text.split(/\?|\.|\。|\!|\！|\？/)
         puts "Example sentence in #{@language.name.capitalize}: #{lg_examples[0]}.".cyan unless lg_examples == nil
       else
         # alert user if language cannot be found on wordreference

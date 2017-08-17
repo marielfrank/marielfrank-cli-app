@@ -28,9 +28,7 @@ class RosettaSearch::CLI
     # turn string to integer
     @language_count = gets.strip.to_i
     # make sure number is within range
-    if @language_count < 1 || @language_count > 4
-      pick_a_number
-    end
+    pick_a_number if @language_count < 1 || @language_count > 4
   end
 
   # create list of languages available for translation through Google Cloud Translation API
@@ -89,24 +87,17 @@ please enter 'list languages'. Otherwise, press 'Enter'.".green
     puts "What would you like your first language to be?".green
     @lang1_pick = set_language
     if @language_count > 3
-      puts "Now choose your second language:".green
-      @lang2_pick = set_language
-      puts "And your third language:".green
-      @lang3_pick = set_language
+      pick_2_and_3
       puts "And finally, your fourth language:".green
       @lang4_pick = set_language
     elsif @language_count > 2
-      puts "Now choose your second language:".green
-      @lang2_pick = set_language
-      puts "And your third language:".green
-      @lang3_pick = set_language
+      pick_2_and_3
     elsif @language_count > 1
       puts "Now choose your second language:".green
       @lang2_pick = set_language
     end
-    puts @lang1_pick
     puts "-------------------"
-    puts "You'll be translating '#{phrase}' into:".green
+    puts "You'll be translating '#{@phrase}' into:".green
     # list languages picked for translation
     [@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick].each do |lang|
       puts lang.capitalize.light_white if lang != nil
@@ -114,6 +105,14 @@ please enter 'list languages'. Otherwise, press 'Enter'.".green
     # create new language stone from picked languages
     @stone = RosettaSearch::Stone.new(@lang1_pick, @lang2_pick, @lang3_pick, @lang4_pick)
     translate
+  end
+
+  # for picks of more than two languages
+  def pick_2_and_3
+    puts "Now choose your second language:".green
+    @lang2_pick = set_language
+    puts "And your third language:".green
+    @lang3_pick = set_language
   end
 
   # run translation
