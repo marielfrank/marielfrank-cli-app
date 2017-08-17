@@ -41,7 +41,7 @@ module RosettaSearch
         puts "Example sentence in #{@language.name.capitalize}: #{lg_examples[0]}.".cyan unless lg_examples == nil
       else
         # alert user if language cannot be found on wordreference
-        puts "We cannot find examples for that particular language.".yellow
+        puts "We cannot find examples for that particular expression/language.".yellow
       end
     end
 

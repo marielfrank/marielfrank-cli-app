@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
-require_relative '../lib/rosetta_search.rb'
+require "bundler/setup"
+require_relative '../lib/rosetta_search'
 
 RosettaSearch::CLI.new.call
