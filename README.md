@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+This gem enables you to translate a word or phrase into up to four languages at the same time. You can also obtain further translation information (including example usage) for individual words in some languages.
 
 ## Development
 
