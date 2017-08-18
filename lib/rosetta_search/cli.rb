@@ -9,7 +9,9 @@ class RosettaSearch::CLI
   # greet user
   def greet
     # welcome message
-    puts "Welcome to Rosetta Search!".green
+    puts "-------------------------------------------"
+    puts "|" + "      Welcome to Rosetta Search!         ".green + "|"
+    puts "-------------------------------------------"
     puts "You can translate from English into several languages at once :)".green
     # change @greeted to true
     @greeted = true
