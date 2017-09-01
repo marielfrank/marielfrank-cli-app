@@ -6,6 +6,15 @@ class RosettaSearch::CLI
     @greeted = greeted
   end
 
+  # primary CLI method
+  def call
+    greet if @greeted == false
+    set_phrase if @phrase == nil
+    pick_languages
+    menu
+    goodbye
+  end
+
   # greet user
   def greet
     # welcome message
@@ -22,54 +31,6 @@ class RosettaSearch::CLI
     puts "Please enter the phrase that you would like to translate:".green
     @phrase = gets.strip
     puts "Excellent.".green
-  end
-
-  # pick how many languages for translation
-  def pick_a_number
-    puts "Please choose a number between 1 and 4.".green
-    # turn string to integer
-    @language_count = gets.strip.to_i
-    # make sure number is within range
-    pick_a_number if @language_count < 1 || @language_count > 4
-  end
-
-  # create list of languages available for translation through Google Cloud Translation API
-  def valid_languages
-    RosettaSearch::LANGUAGES.map do |lang, code|
-      lang.to_s.capitalize.gsub("_", " ")
-    end
-  end
-
-  # list languages
-  def list_languages
-    puts self.valid_languages.join(", ").cyan
-  end
-
-  # check if language is valid
-  def valid_language?(language)
-    self.valid_languages.include?(language.capitalize)
-  end
-
-  # set language
-  def set_language
-    # get input from user
-    input = gets.strip.downcase
-    # check if the input is a valid language
-    if valid_language?(input)
-      # set the language if valid
-      language_pick = input
-    else
-      # error message
-      puts "Oops! Looks like we don't have that language.".yellow
-      # option to see full language list again
-      puts "Would you like to see the full list of languages again? (y/n)".green
-      gets.strip.downcase == "y" ? list_languages : puts("Good memory!".green)
-      # try setting the language again
-      puts "Please enter a language from our list.".green
-      language_pick = set_language
-    end
-    # return the language name that we picked
-    language_pick
   end
 
   # reset languages and choose new ones
@@ -109,6 +70,54 @@ please enter 'list languages'. Otherwise, press 'Enter'.".green
     translate
   end
 
+  # pick how many languages for translation
+  def pick_a_number
+    puts "Please choose a number between 1 and 4.".green
+    # turn string to integer
+    @language_count = gets.strip.to_i
+    # make sure number is within range
+    pick_a_number if @language_count < 1 || @language_count > 4
+  end
+
+  # list languages
+  def list_languages
+    puts self.valid_languages.join(", ").cyan
+  end
+
+  # create list of languages available for translation through Google Cloud Translation API
+  def valid_languages
+    RosettaSearch::LANGUAGES.map do |lang, code|
+      lang.to_s.capitalize.gsub("_", " ")
+    end
+  end
+
+  # set language
+  def set_language
+    # get input from user
+    input = gets.strip.downcase
+    # check if the input is a valid language
+    if valid_language?(input)
+      # set the language if valid
+      language_pick = input
+    else
+      # error message
+      puts "Oops! Looks like we don't have that language.".yellow
+      # option to see full language list again
+      puts "Would you like to see the full list of languages again? (y/n)".green
+      gets.strip.downcase == "y" ? list_languages : puts("Good memory!".green)
+      # try setting the language again
+      puts "Please enter a language from our list.".green
+      language_pick = set_language
+    end
+    # return the language name that we picked
+    language_pick
+  end
+
+  # check if language is valid
+  def valid_language?(language)
+    self.valid_languages.include?(language.capitalize)
+  end
+
   # for picks of more than two languages
   def pick_2_and_3
     puts "Now choose your second language:".green
@@ -129,15 +138,6 @@ please enter 'list languages'. Otherwise, press 'Enter'.".green
     deet_word = gets.strip
     details = RosettaSearch::DetailScraper.new(deet_lang, deet_word)
     details.scrape
-  end
-
-  # primary CLI method
-  def call
-    greet if @greeted == false
-    set_phrase if @phrase == nil
-    pick_languages
-    menu
-    goodbye
   end
 
   # continued menu options are presented once first translation is complete

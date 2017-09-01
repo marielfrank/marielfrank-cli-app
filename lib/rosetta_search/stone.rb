@@ -26,7 +26,7 @@ class RosettaSearch::Stone
     RosettaSearch::Language.find_or_create(lang_name)
   end
 
-  # translate phrase into each language and print to console
+  # translate phrase into each language with Google's API and print to console
   def translate(phrase)
     puts "-------------------"
     @langs.each do |lang|
