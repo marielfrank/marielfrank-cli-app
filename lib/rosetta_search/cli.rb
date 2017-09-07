@@ -2,13 +2,16 @@ class RosettaSearch::CLI
   attr_accessor :language_count, :stone, :lang1_pick, :lang2_pick,
     :lang3_pick, :lang4_pick, :phrase, :greeted, :valid_languages
 
+  # phrases array
+  @@phrases = []
+
   def initialize(greeted = false)
     @greeted = greeted
   end
 
   # primary CLI method
   def call
-    greet if @greeted == false
+    greet if !@greeted
     set_phrase if @phrase == nil
     pick_languages
     menu
@@ -30,6 +33,7 @@ class RosettaSearch::CLI
   def set_phrase
     puts "Please enter the phrase that you would like to translate:".green
     @phrase = gets.strip
+    @@phrases << @phrase
     puts "Excellent.".green
   end
 
@@ -86,7 +90,7 @@ please enter 'list languages'. Otherwise, press 'Enter'.".green
 
   # create list of languages available for translation through Google Cloud Translation API
   def valid_languages
-    RosettaSearch::LANGUAGES.map do |lang, code|
+    RosettaSearch::LANGUAGES.keys.map do |lang|
       lang.to_s.capitalize.gsub("_", " ")
     end
   end
@@ -147,6 +151,7 @@ please enter 'list languages'. Otherwise, press 'Enter'.".green
       puts "-------------------"
       puts "To pick new languages, enter 'new languages',
 to translate a new phrase, enter 'new phrase',
+to see all phrases you have entered, enter 'see phrases',
 to get details/examples for a specific word, enter 'details',
 or to exit the program, enter 'exit'.".red
       puts "-------------------"
@@ -159,6 +164,8 @@ or to exit the program, enter 'exit'.".red
         # get a new phrase and translate into current languages
         set_phrase
         translate
+      when "see phrases"
+        puts_phrases
       when "details"
         # get word and language, scrape wordreference for details
         get_details
@@ -166,6 +173,18 @@ or to exit the program, enter 'exit'.".red
         puts "Sorry, that isn't a command I recognize.".yellow unless input == "exit"
       end
     end
+  end
+
+  # puts all phrases to console
+  def puts_phrases
+    self.class.phrases.each.with_index(1) do |phrase, i|
+      puts "#{i}. #{phrase}"
+    end
+  end
+
+  # call all phrases that user has ever set
+  def self.phrases
+    @@phrases
   end
 
   def goodbye
